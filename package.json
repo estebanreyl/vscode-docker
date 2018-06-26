@@ -33,6 +33,7 @@
     "onCommand:vscode-docker.image.inspect",
     "onCommand:vscode-docker.image.remove",
     "onCommand:vscode-docker.image.push",
+    "onCommand:vscode-docker.image.pushToAzure",
     "onCommand:vscode-docker.image.tag",
     "onCommand:vscode-docker.container.start",
     "onCommand:vscode-docker.container.start.interactive",
@@ -145,6 +146,14 @@
         },
         {
           "command": "vscode-docker.image.push",
+          "when": "view == dockerExplorer && viewItem == imagesRootNode"
+        },
+        {
+          "command": "vscode-docker.image.pushToAzure",
+          "when": "view == dockerExplorer && viewItem == localImageNode"
+        },
+        {
+          "command": "vscode-docker.image.pushToAzure",
           "when": "view == dockerExplorer && viewItem == imagesRootNode"
         },
         {
@@ -544,6 +553,12 @@
         "command": "vscode-docker.image.push",
         "title": "Push",
         "description": "Push an image to a registry",
+        "category": "Docker"
+      },
+      {
+        "command": "vscode-docker.image.pushToAzure",
+        "title": "Push To Azure",
+        "description": "Push an image to an Azure container registry",
         "category": "Docker"
       },
       {
