@@ -1,0 +1,10 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\commands",
+    "\\dockerfile",
+    "\\helpers"
+  ],
+  "SelectedNode": "\\commands\\build-image.ts",
+  "PreviewInSolutionExplorer": false
+}

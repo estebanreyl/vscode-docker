@@ -60,7 +60,6 @@ export class DockerExplorerProvider implements vscode.TreeDataProvider<NodeBase>
         node = new RootNode('Registries', 'registriesRootNode', this._onDidChangeTreeData, this._azureAccount);
         this._registriesNode = node;
         rootNodes.push(node);
-
         return rootNodes;
     }
 }
