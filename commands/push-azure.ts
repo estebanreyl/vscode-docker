@@ -6,9 +6,15 @@
  * Updated 6/25/2018
  * 
  * Known Issues:
+ * 
  * Does not currently identify if resource groups/container registry exist.
- * Is currently dependent on terminal installation of azure CLI
- * Await not waiting properly/use promises
+ * Is currently dependent on terminal installation of azure CLI 
+ * Review best practices for await
+ * If user is not logged in no idea what to do
+ * login rocketpenguininterns.azurecr.io
+    Username: rocketPenguinInterns
+    Password:
+    Login Succeeded
  */
 
 
@@ -17,12 +23,10 @@ import { ImageItem, quickPickImage } from './utils/quick-pick-image';
 import { reporter } from '../telemetry/telemetry';
 import { ImageNode } from '../explorer/models/imageNode';
 import { ExecuteCommandRequest } from 'vscode-languageclient/lib/main';
-const {promisify} = require("es6-promisify");
-
 //FOR TELEMETRY DATA
 const teleCmdId: string = 'vscode-docker.image.pushToAzure';
 const teleAzureId: string = 'vscode-docker.image.push.azureContainerRegistry';
-const exec = promisify(require('child_process').exec);
+const { exec } = require('child_process');
 
 export async function pushAzure(context?: ImageNode) {
     let imageToPush: Docker.ImageDesc;
@@ -76,25 +80,22 @@ export async function pushAzure(context?: ImageNode) {
                 vscode.window.showErrorMessage(`${regName} could not be found in resource group: ${resGroup}`);
                 return;
             }
-    
-            // 5. Acquire Version
-            options = {
-                prompt: "Image Version?"
-            }
-            vscode.window.showInputBox(options).then(version => {
+
+            let tagPrompts = async function(){
+                let repName = await vscode.window.showInputBox({prompt: "Repository Name?" });                
+                let tag = await vscode.window.showInputBox({ prompt: "Tag?" });
+                // 5. Tag image
+                terminal.sendText(`docker tag  ${imageName} ${soughtsrvr}/${repName}:${tag}`);
                 // 6. Push image
-                terminal.sendText(`docker tag microsoft/${imageName} ${soughtsrvr}/${imageName}:${version}`);
-                terminal.sendText(`docker push ${soughtsrvr}/${imageName}:${version}`);
-                terminal.sendText(`docker push ${imageName}`);
+                terminal.sendText(`docker push ${soughtsrvr}/${repName}:${tag}`);
                 terminal.show();
-            });
+            }
+
+            tagPrompts();
+
         }
 
-
-
         exec(`az acr list --resource-group ${resGroup} --query "[].{acrLoginServer:loginServer}" --output json`, cont);
-        
-        //const strStdout:string  = await streamToString(stdout);
     }
 }
 

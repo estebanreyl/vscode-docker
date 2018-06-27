@@ -3,8 +3,10 @@
     "",
     "\\commands",
     "\\dockerfile",
+    "\\explorer",
+    "\\explorer\\models",
     "\\helpers"
   ],
-  "SelectedNode": "\\commands\\build-image.ts",
+  "SelectedNode": "\\explorer\\models\\imageNode.ts",
   "PreviewInSolutionExplorer": false
 }
